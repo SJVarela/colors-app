@@ -1,27 +1,32 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import ColorList from "./components/colorList";
+import colors from "./data";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { items: colors };
+    this.rateColor = this.rateColor.bind(this);
+  }
   render() {
+    const { items } = this.state;
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div className="app">
+        <ColorList colors={items} onRate={this.rateColor} />
       </div>
     );
+  }
+
+  rateColor(id, rating) {
+    const colors = this.state.items.map(color =>
+      color.id !== id
+        ? color
+        : {
+            ...color,
+            rating
+          }
+    );
+    this.setState({ items: colors });
   }
 }
 
